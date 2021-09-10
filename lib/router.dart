@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dose_care/Screens/pageNotFound.dart';
 import 'package:dose_care/Screens/auth/login_page.dart';
-import 'package:dose_care/Screens/auth/signup_view.dart';
+import 'package:dose_care/Screens/auth/signup_main.dart';
 import 'package:dose_care/Screens/dashboard/landing.dart';
+import 'package:dose_care/Screens/auth/signup_individual.dart';
+import 'package:dose_care/Screens/auth/signup_institution.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -14,6 +16,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpPage());
       case '/landing':
         return MaterialPageRoute(builder: (_) => LandingPage());
+      case '/individual':
+        return MaterialPageRoute(builder: (_) => SignUpIndividual());
+      case '/institution':
+        return MaterialPageRoute(builder: (_) => SignUpInstitution());
+
       default:
         return MaterialPageRoute(builder: (_) => PageNotFound());
     }

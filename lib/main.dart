@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
             brightness: Brightness.light,
             fontFamily: 'WorkSans',
           ),
-          darkTheme: ThemeData(brightness: Brightness.dark),
           initialRoute: '/',
           onGenerateRoute: RouteGenerator.generateRoute,
         );

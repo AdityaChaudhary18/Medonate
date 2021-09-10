@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dose_care/constants.dart';
 import 'package:dose_care/utils/RoundedButton.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -20,8 +21,8 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Container(
             height: 40.h,
-            child: Image.asset(
-              "images/logo.png",
+            child: SvgPicture.asset(
+              "images/logo.svg",
               fit: BoxFit.fitWidth,
               width: 100.w,
             ),
