@@ -22,3 +22,10 @@ var authTextFieldDecoration = InputDecoration(
     ),
   ),
 );
+
+Color kblue = Color(0xFF004AAD);
+Color kwhite = Colors.white;
+Color kblack = Colors.black;
+Color kbrown = Color(0xFF795548);
+Color kbrown300 = Color(0xFF8D6E63);
+Color kgrey = Color(0xFFC0C0C0);

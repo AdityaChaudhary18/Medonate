@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:dose_care/router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter/services.dart';
 
-void main() {
+int? isViewed;
+
+void main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isViewed = prefs.getInt('onBoard');
   runApp(MyApp());
 }
 
@@ -19,7 +29,8 @@ class MyApp extends StatelessWidget {
             brightness: Brightness.light,
             fontFamily: 'WorkSans',
           ),
-          initialRoute: '/',
+          initialRoute: isViewed != 0 ? '/onboarding' : '/',
+          // initialRoute: '/onboarding',
           onGenerateRoute: RouteGenerator.generateRoute,
         );
       },

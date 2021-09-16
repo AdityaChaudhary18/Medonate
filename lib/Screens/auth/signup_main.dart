@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Container(
       child: Scaffold(
         backgroundColor: Color(0xFF004AAD),
@@ -17,7 +19,7 @@ class SignUpPage extends StatelessWidget {
               child: SvgPicture.asset(
                 "images/logo.svg",
                 fit: BoxFit.fitWidth,
-                width: 100.w,
+                width: width,
               ),
             ),
             Expanded(

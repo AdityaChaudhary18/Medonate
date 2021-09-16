@@ -5,6 +5,7 @@ import 'package:dose_care/Screens/auth/signup_main.dart';
 import 'package:dose_care/Screens/dashboard/landing.dart';
 import 'package:dose_care/Screens/auth/signup_individual.dart';
 import 'package:dose_care/Screens/auth/signup_institution.dart';
+import 'package:dose_care/Screens/intro/onboardingScreen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -20,7 +21,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpIndividual());
       case '/institution':
         return MaterialPageRoute(builder: (_) => SignUpInstitution());
-
+      case '/onboarding':
+        return MaterialPageRoute(builder: (_) => OnBoardingScreen());
       default:
         return MaterialPageRoute(builder: (_) => PageNotFound());
     }

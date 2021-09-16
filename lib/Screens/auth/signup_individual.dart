@@ -21,6 +21,7 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
   final confirmPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xFF004AAD),
       body: Column(
@@ -30,7 +31,7 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
             child: SvgPicture.asset(
               "images/logo.svg",
               fit: BoxFit.fitWidth,
-              width: 100.w,
+              width: width,
             ),
           ),
           Expanded(

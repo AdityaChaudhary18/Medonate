@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xFF004AAD),
       body: Column(
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
             child: SvgPicture.asset(
               "images/logo.svg",
               fit: BoxFit.fitWidth,
-              width: 100.w,
+              width: width,
             ),
           ),
           Expanded(

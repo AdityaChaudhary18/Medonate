@@ -33,7 +33,6 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
               height: 12.h,
               child: SvgPicture.asset(
                 "images/logoTrans.svg",
-                width: 100.w,
               ),
             ),
             Expanded(
