@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dose_care/utils/RoundedButton.dart';
-import 'package:dose_care/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SignUpPage extends StatelessWidget {
