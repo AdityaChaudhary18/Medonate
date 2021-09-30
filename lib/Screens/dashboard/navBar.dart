@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import 'landing.dart';
 import '../pageNotFound.dart';
 
@@ -53,7 +54,7 @@ class _NavBarPageState extends State<NavBarPage>
                 child: SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
+                        horizontal: 6.0, vertical: 8.0),
                     child: GNav(
                       gap: 4,
                       iconSize: 24,
@@ -71,15 +72,15 @@ class _NavBarPageState extends State<NavBarPage>
                         ),
                         GButton(
                           icon: LineIcons.hockeyPuck,
-                          text: "Continents",
+                          text: "Blood",
                         ),
                         GButton(
                           icon: Icons.flag,
-                          text: "Countries",
+                          text: "Equipment",
                         ),
                         GButton(
                           icon: Icons.security,
-                          text: "Safety",
+                          text: "Organ",
                         )
                       ],
                       selectedIndex: currentIndex,
