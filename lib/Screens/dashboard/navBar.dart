@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
-
+import 'landing.dart';
 import '../pageNotFound.dart';
 
 class NavBarPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _NavBarPageState extends State<NavBarPage>
   final PageController pageController = PageController();
   late TabController tabController;
   final List<Widget> pages = [
-    SignUpIndividual(),
+    LandingPage(),
     SignUpInstitution(),
     OnBoardingScreen(),
     PageNotFound()
@@ -62,7 +62,7 @@ class _NavBarPageState extends State<NavBarPage>
                       duration: Duration(milliseconds: 500),
                       activeColor: Theme.of(context).primaryColor,
                       tabBackgroundColor: Theme.of(context).buttonColor,
-                      color: Theme.of(context).accentColor,
+                      color: Colors.black,
                       backgroundColor: Theme.of(context).bottomAppBarColor,
                       tabs: [
                         GButton(

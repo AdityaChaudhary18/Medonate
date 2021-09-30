@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: RoundedButton(
                         color: Color(0xFF004AAD),
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/landing');
+                          Navigator.pushReplacementNamed(context, '/navbar');
                         },
                         text: "LOG IN",
                       ),
