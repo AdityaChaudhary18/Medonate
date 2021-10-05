@@ -35,6 +35,8 @@ dependencies:
   line_icons: ^2.0.1
   provider: any
   carousel_slider: ^4.0.0
+  dio: ^4.0.0
+  transparent_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:

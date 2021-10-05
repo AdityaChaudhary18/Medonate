@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dose_care/services/news.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 final List<String> imgList = [
   'images/home/fact1.png',
@@ -12,6 +16,8 @@ final List<String> imgList = [
   'images/home/fact7.png',
   'images/home/fact8.png',
 ];
+final List<String> newsImgList = [];
+final List<String> newsTitleList = [];
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -22,6 +28,24 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   CarouselController buttonCarouselController = CarouselController();
+  NewsModel newsModel = NewsModel();
+  var article;
+
+  @override
+  void initState() {
+    super.initState();
+    article = getNewsData();
+  }
+
+  Future<dynamic> getNewsData() async {
+    var data = await newsModel.getNews();
+    for (var article in data) {
+      newsImgList.add(article.urlToImage);
+      newsTitleList.add(article.title);
+    }
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +100,27 @@ class _LandingPageState extends State<LandingPage> {
                       Radius.circular(20.0),
                     ),
                   ),
+                  child: FutureBuilder(
+                    future: article,
+                    builder: (context, data) {
+                      if (data.hasData) {
+                        return CarouselSlider.builder(
+                          options: CarouselOptions(
+                            enlargeCenterPage: true,
+                            viewportFraction: 1,
+                            autoPlay: true,
+                          ),
+                          itemCount: newsImgList.length,
+                          itemBuilder: (context, index, realIndex) {
+                            final image = newsImgList[index];
+                            return buildNetworkImage(newsImgList[index], index);
+                          },
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
                 ),
               ),
               Padding(
@@ -129,6 +174,30 @@ Widget buildImage(String urlImage, int index) => Container(
         child: Image.asset(
           urlImage,
           fit: BoxFit.cover,
+        ),
+      ),
+    );
+
+Widget buildNetworkImage(String urlImage, int index) => Container(
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20.0),
+        ),
+        // child: Image.network(
+        //   urlImage,
+        //   fit: BoxFit.cover,
+        // ),
+        child: Stack(
+          children: <Widget>[
+            const Center(child: CircularProgressIndicator()),
+            Center(
+              child: FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage,
+                image: urlImage,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ],
         ),
       ),
     );
