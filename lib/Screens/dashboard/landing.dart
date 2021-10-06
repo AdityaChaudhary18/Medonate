@@ -7,6 +7,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dose_care/services/news.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final List<String> imgList = [
   'images/home/fact1.png',
@@ -20,6 +21,7 @@ final List<String> imgList = [
 ];
 final List<String> newsImgList = [];
 final List<String> newsTitleList = [];
+final List<String> articleUrlList = [];
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -46,6 +48,7 @@ class _LandingPageState extends State<LandingPage> {
       if (i < 7) {
         newsImgList.add(article.urlToImage);
         newsTitleList.add(article.title);
+        articleUrlList.add(article.articleUrl);
         i++;
       } else {
         return data;
@@ -94,30 +97,32 @@ class _LandingPageState extends State<LandingPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: Container(
-                  height: 32.h,
-                  // decoration: BoxDecoration(
-                  //   border: Border.all(
-                  //     color: Colors.grey,
-                  //     width: 2,
-                  //   ),
-                  //   borderRadius: BorderRadius.all(
-                  //     Radius.circular(20.0),
-                  //   ),
-                  // ),
-                  child: FutureBuilder(
-                    future: article,
-                    builder: (context, data) {
-                      if (data.hasData) {
-                        return Column(
+              Container(
+                height: 265,
+                // decoration: BoxDecoration(
+                //   border: Border.all(
+                //     color: Colors.grey,
+                //     width: 2,
+                //   ),
+                //   borderRadius: BorderRadius.all(
+                //     Radius.circular(20.0),
+                //   ),
+                // ),
+                child: FutureBuilder(
+                  future: article,
+                  builder: (context, data) {
+                    if (data.hasData) {
+                      return Padding(
+                        padding: EdgeInsets.all(1.h),
+                        child: Column(
                           children: [
                             CarouselSlider.builder(
                               options: CarouselOptions(
                                 enlargeCenterPage: true,
-                                viewportFraction: 1,
+                                viewportFraction: 0.75,
                                 autoPlay: false,
                                 onPageChanged: (index, reason) =>
                                     setState(() => activeIndex = index),
@@ -125,30 +130,36 @@ class _LandingPageState extends State<LandingPage> {
                               itemCount: newsImgList.length,
                               itemBuilder: (context, index, realIndex) {
                                 final image = newsImgList[index];
-                                return buildNetworkImage(newsImgList[index],
-                                    index, newsTitleList[index]);
+                                return buildNetworkImage(
+                                    newsImgList[index],
+                                    index,
+                                    newsTitleList[index],
+                                    articleUrlList[index]);
                               },
                             ),
-                            const SizedBox(
-                              height: 2,
+                            SizedBox(
+                              height: 10,
                             ),
                             buildIndicator(),
                           ],
-                        );
-                      } else {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Center(child: CircularProgressIndicator()),
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                            Text("Fetching News")
-                          ],
-                        );
-                      }
-                    },
-                  ),
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                              child: CircularProgressIndicator(
+                            color: Colors.black,
+                          )),
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                          Text("Fetching News")
+                        ],
+                      );
+                    }
+                  },
                 ),
               ),
               Padding(
@@ -205,54 +216,64 @@ class _LandingPageState extends State<LandingPage> {
         ),
       );
 
-  Widget buildNetworkImage(String urlImage, int index, String title) =>
-      Container(
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20.0),
-          ),
-          child: Stack(
-            children: <Widget>[
-              const Center(child: CircularProgressIndicator()),
-              Container(
-                child: Center(
-                  child: FadeInImage.memoryNetwork(
-                    placeholder: kTransparentImage,
-                    height: double.infinity,
-                    image: urlImage,
-                    fit: BoxFit.fill,
-                    width: double.infinity,
+  Widget buildNetworkImage(
+          String urlImage, int index, String title, String urlLink) =>
+      GestureDetector(
+        onTap: () {
+          _launchURL(urlLink);
+        },
+        child: Container(
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+            child: Stack(
+              children: <Widget>[
+                const Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.black,
+                )),
+                Container(
+                  child: Center(
+                    child: FadeInImage.memoryNetwork(
+                      placeholder: kTransparentImage,
+                      height: double.infinity,
+                      image: urlImage,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: 17.h,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        color: Colors.transparent.withOpacity(0.7),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
+                Positioned(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          color: Colors.transparent.withOpacity(0.7),
+                          child: Padding(
+                            padding: EdgeInsets.all(2.h),
+                            child: Center(
                               child: Text(
-                            '$title',
-                            textAlign: TextAlign.center,
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 12.sp),
-                          )),
+                                '$title',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.bold,
+                                  // fontFamily: 'Verdana'
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -260,9 +281,13 @@ class _LandingPageState extends State<LandingPage> {
   Widget buildIndicator() => AnimatedSmoothIndicator(
         activeIndex: activeIndex,
         count: newsImgList.length,
-        effect: ExpandingDotsEffect(
+        effect: ScrollingDotsEffect(
           dotWidth: 10,
           dotHeight: 10,
+          activeDotColor: Color(0xFF004AAD),
         ),
       );
+
+  void _launchURL(url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 }
