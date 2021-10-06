@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dose_care/services/news.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 final List<String> imgList = [
@@ -30,7 +32,7 @@ class _LandingPageState extends State<LandingPage> {
   CarouselController buttonCarouselController = CarouselController();
   NewsModel newsModel = NewsModel();
   var article;
-
+  int activeIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -38,10 +40,16 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<dynamic> getNewsData() async {
+    int i = 0;
     var data = await newsModel.getNews();
     for (var article in data) {
-      newsImgList.add(article.urlToImage);
-      newsTitleList.add(article.title);
+      if (i < 7) {
+        newsImgList.add(article.urlToImage);
+        newsTitleList.add(article.title);
+        i++;
+      } else {
+        return data;
+      }
     }
     return data;
   }
@@ -90,34 +98,54 @@ class _LandingPageState extends State<LandingPage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                 child: Container(
-                  height: 30.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                  ),
+                  height: 32.h,
+                  // decoration: BoxDecoration(
+                  //   border: Border.all(
+                  //     color: Colors.grey,
+                  //     width: 2,
+                  //   ),
+                  //   borderRadius: BorderRadius.all(
+                  //     Radius.circular(20.0),
+                  //   ),
+                  // ),
                   child: FutureBuilder(
                     future: article,
                     builder: (context, data) {
                       if (data.hasData) {
-                        return CarouselSlider.builder(
-                          options: CarouselOptions(
-                            enlargeCenterPage: true,
-                            viewportFraction: 1,
-                            autoPlay: true,
-                          ),
-                          itemCount: newsImgList.length,
-                          itemBuilder: (context, index, realIndex) {
-                            final image = newsImgList[index];
-                            return buildNetworkImage(newsImgList[index], index);
-                          },
+                        return Column(
+                          children: [
+                            CarouselSlider.builder(
+                              options: CarouselOptions(
+                                enlargeCenterPage: true,
+                                viewportFraction: 1,
+                                autoPlay: false,
+                                onPageChanged: (index, reason) =>
+                                    setState(() => activeIndex = index),
+                              ),
+                              itemCount: newsImgList.length,
+                              itemBuilder: (context, index, realIndex) {
+                                final image = newsImgList[index];
+                                return buildNetworkImage(newsImgList[index],
+                                    index, newsTitleList[index]);
+                              },
+                            ),
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            buildIndicator(),
+                          ],
                         );
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(child: CircularProgressIndicator()),
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Text("Fetching News")
+                          ],
+                        );
                       }
                     },
                   ),
@@ -164,40 +192,77 @@ class _LandingPageState extends State<LandingPage> {
       ),
     );
   }
-}
 
-Widget buildImage(String urlImage, int index) => Container(
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(
-          Radius.circular(20.0),
+  Widget buildImage(String urlImage, int index) => Container(
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+          child: Image.asset(
+            urlImage,
+            fit: BoxFit.cover,
+          ),
         ),
-        child: Image.asset(
-          urlImage,
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
+      );
 
-Widget buildNetworkImage(String urlImage, int index) => Container(
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(
-          Radius.circular(20.0),
-        ),
-        // child: Image.network(
-        //   urlImage,
-        //   fit: BoxFit.cover,
-        // ),
-        child: Stack(
-          children: <Widget>[
-            const Center(child: CircularProgressIndicator()),
-            Center(
-              child: FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: urlImage,
-                fit: BoxFit.fill,
+  Widget buildNetworkImage(String urlImage, int index, String title) =>
+      Container(
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+          child: Stack(
+            children: <Widget>[
+              const Center(child: CircularProgressIndicator()),
+              Container(
+                child: Center(
+                  child: FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    height: double.infinity,
+                    image: urlImage,
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                  ),
+                ),
               ),
-            ),
-          ],
+              Positioned(
+                top: 17.h,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        color: Colors.transparent.withOpacity(0.7),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                              child: Text(
+                            '$title',
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 12.sp),
+                          )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+
+  Widget buildIndicator() => AnimatedSmoothIndicator(
+        activeIndex: activeIndex,
+        count: newsImgList.length,
+        effect: ExpandingDotsEffect(
+          dotWidth: 10,
+          dotHeight: 10,
+        ),
+      );
+}
