@@ -74,7 +74,7 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.pushReplacementNamed(context, '/landing');
+      Navigator.pushReplacementNamed(context, '/navbar');
     }).catchError((error) {
       final snackBar = SnackBar(
         backgroundColor: Colors.lightBlue,
