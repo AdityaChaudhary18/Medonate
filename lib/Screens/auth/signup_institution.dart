@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
@@ -22,6 +24,70 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  Future<void> signUpInst() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.value.text,
+              password: passwordController.value.text);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+          content: Text(
+            "Weak-password",
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else if (e.code == 'email-already-in-use') {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+          content: Text(
+            "Email-already-in-use!",
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return users.add({
+      'name': instituteNameController.value.text,
+      'email': emailController.value.text,
+      'location': cityNameController.value.text,
+      'type': "institution",
+      'state': stateNameController.value.text,
+      'instituteId': instituteIdController.value.text,
+    }).then((value) {
+      final snackBar = SnackBar(
+        backgroundColor: Colors.lightBlue,
+        duration: Duration(seconds: 3),
+        content: Text(
+          "Success!",
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.pushReplacementNamed(context, '/landing');
+    }).catchError((error) {
+      final snackBar = SnackBar(
+        backgroundColor: Colors.lightBlue,
+        duration: Duration(seconds: 8),
+        content: Text(
+          error,
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,8 +247,10 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
                           child: RoundedButton(
                             color: agree ? Color(0xFF004AAD) : Colors.grey,
                             onPressed: () {
-                              if (agree) {
-                                Navigator.pushNamed(context, '/landing');
+                              if (agree &&
+                                  passwordController.value.text ==
+                                      confirmPasswordController.value.text) {
+                                signUpInst();
                               }
                             },
                             text: "LOG IN",

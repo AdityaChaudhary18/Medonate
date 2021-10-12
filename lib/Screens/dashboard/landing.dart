@@ -44,6 +44,7 @@ class _LandingPageState extends State<LandingPage> {
   Future<dynamic> getNewsData() async {
     int i = 0;
     var data = await newsModel.getNews();
+
     for (var article in data) {
       if (i < 7) {
         newsImgList.add(article.urlToImage);
@@ -102,15 +103,6 @@ class _LandingPageState extends State<LandingPage> {
             children: [
               Container(
                 height: 265,
-                // decoration: BoxDecoration(
-                //   border: Border.all(
-                //     color: Colors.grey,
-                //     width: 2,
-                //   ),
-                //   borderRadius: BorderRadius.all(
-                //     Radius.circular(20.0),
-                //   ),
-                // ),
                 child: FutureBuilder(
                   future: article,
                   builder: (context, data) {
@@ -163,7 +155,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                padding: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 2.h),
                 child: Container(
                   height: 15.h,
                   decoration: BoxDecoration(

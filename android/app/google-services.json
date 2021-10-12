@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "843703425252",
+    "project_id": "medonate-6e59a",
+    "storage_bucket": "medonate-6e59a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843703425252:android:3abdaae3ea80434e2c34f1",
+        "android_client_info": {
+          "package_name": "com.example.dose_care"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843703425252-vuscg7u3au9ou3lmi69646qdanqqqpfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlddn3LhvHL1XXNsGHeKejLBCxhYxMViI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843703425252-vuscg7u3au9ou3lmi69646qdanqqqpfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

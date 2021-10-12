@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dose_care/constants.dart';
@@ -10,6 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -76,8 +78,29 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       child: RoundedButton(
                         color: Color(0xFF004AAD),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/navbar');
+                        onPressed: () async {
+                          try {
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .signInWithEmailAndPassword(
+                                    email: emailController.value.text,
+                                    password: passwordController.value.text);
+                            Navigator.pushReplacementNamed(context, '/landing');
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found' ||
+                                e.code == 'wrong-password') {
+                              final snackBar = SnackBar(
+                                backgroundColor: Colors.lightBlue,
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                  "Incorrect Email or Password!",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          }
                         },
                         text: "LOG IN",
                       ),

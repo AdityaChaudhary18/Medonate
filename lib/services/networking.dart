@@ -12,9 +12,12 @@ class NetworkHelper {
       url,
     );
     var jsonData = response.data["articles"];
-    print(jsonData);
+    int i = 0;
     jsonData.forEach((element) {
-      if (element['urlToImage'] != null && element['description'] != null) {
+      if (element['urlToImage'] != null &&
+          element['description'] != null &&
+          i < 7) {
+        i++;
         Article article = Article(
           title: element['title'],
           author: element['author'],

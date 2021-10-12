@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dose_care/constants.dart';
 import 'package:dose_care/utils/RoundedButton.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpIndividual extends StatefulWidget {
   const SignUpIndividual({Key? key}) : super(key: key);
@@ -12,6 +14,8 @@ class SignUpIndividual extends StatefulWidget {
 }
 
 class _SignUpIndividualState extends State<SignUpIndividual> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference userIndi = FirebaseFirestore.instance.collection('users');
   bool agree = false;
   bool _obscureText1 = true;
   bool _obscureText2 = true;
@@ -19,6 +23,68 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final locationController = TextEditingController();
+
+  Future<void> signUpIndi() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.value.text,
+              password: passwordController.value.text);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+          content: Text(
+            "Weak-password",
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else if (e.code == 'email-already-in-use') {
+        final snackBar = SnackBar(
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+          content: Text(
+            "Email-already-in-use!",
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return userIndi.add({
+      'name': nameController.value.text,
+      'email': emailController.value.text,
+      'location': locationController.value.text,
+      'type': "individual"
+    }).then((value) {
+      final snackBar = SnackBar(
+        backgroundColor: Colors.lightBlue,
+        duration: Duration(seconds: 3),
+        content: Text(
+          "Success!",
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.pushReplacementNamed(context, '/landing');
+    }).catchError((error) {
+      final snackBar = SnackBar(
+        backgroundColor: Colors.lightBlue,
+        duration: Duration(seconds: 8),
+        content: Text(
+          error,
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -65,6 +131,17 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
                         hintText: "Enter your Name",
                       ),
                       controller: nameController,
+                      keyboardType: TextInputType.name,
+                    ),
+                    SizedBox(
+                      height: 3.h,
+                    ),
+                    TextFormField(
+                      decoration: authTextFieldDecoration.copyWith(
+                        labelText: "City",
+                        hintText: "Enter your City",
+                      ),
+                      controller: locationController,
                       keyboardType: TextInputType.name,
                     ),
                     SizedBox(
@@ -154,8 +231,10 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
                           child: RoundedButton(
                             color: agree ? Color(0xFF004AAD) : Colors.grey,
                             onPressed: () {
-                              if (agree) {
-                                Navigator.pushNamed(context, '/landing');
+                              if (agree &&
+                                  passwordController.value.text ==
+                                      confirmPasswordController.value.text) {
+                                signUpIndi();
                               }
                             },
                             text: "LOG IN",
@@ -180,6 +259,9 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
                               ),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: 3.5.h,
                         ),
                       ],
                     ),
