@@ -77,12 +77,17 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ),
         ],
-        leading: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          child: Icon(
-            Icons.account_circle_outlined,
-            color: Colors.black,
-            size: 5.h,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, '/about');
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: Icon(
+              Icons.account_circle_outlined,
+              color: Colors.black,
+              size: 5.h,
+            ),
           ),
         ),
         title: Text(
