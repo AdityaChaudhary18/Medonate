@@ -1,9 +1,10 @@
 import 'package:dose_care/Screens/auth/signup_individual.dart';
 import 'package:dose_care/Screens/auth/signup_institution.dart';
+import 'package:dose_care/Screens/blood/blood_home.dart';
 import 'package:dose_care/Screens/intro/onboardingScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'landing.dart';
@@ -21,7 +22,7 @@ class _NavBarPageState extends State<NavBarPage>
   late TabController tabController;
   final List<Widget> pages = [
     LandingPage(),
-    SignUpInstitution(),
+    BloodHome(),
     OnBoardingScreen(),
     PageNotFound()
   ];
@@ -71,17 +72,26 @@ class _NavBarPageState extends State<NavBarPage>
                           text: "Home",
                         ),
                         GButton(
-                          icon: LineIcons.hockeyPuck,
+                          icon: FontAwesomeIcons.tint,
                           text: "Blood",
+                          textStyle: TextStyle(color: Colors.red),
+                          iconActiveColor: Colors.red,
+                          hoverColor: Colors.deepOrange,
                         ),
                         GButton(
-                          icon: Icons.flag,
+                          icon: FontAwesomeIcons.lungs,
+                          text: " Organ",
+                          textStyle: TextStyle(color: Colors.teal),
+                          iconActiveColor: Colors.teal,
+                          hoverColor: Colors.greenAccent,
+                        ),
+                        GButton(
+                          icon: FontAwesomeIcons.hospitalUser,
                           text: "Equipment",
+                          textStyle: TextStyle(color: Colors.indigo),
+                          iconActiveColor: Colors.indigo,
+                          hoverColor: Colors.indigo,
                         ),
-                        GButton(
-                          icon: Icons.security,
-                          text: "Organ",
-                        )
                       ],
                       selectedIndex: currentIndex,
                       onTabChange: (int index) {

@@ -32,7 +32,6 @@ dependencies:
   flutter_svg: ^0.22.0
   shared_preferences: ^2.0.7
   google_nav_bar: ^5.0.5
-  line_icons: ^2.0.1
   provider: any
   carousel_slider: ^4.0.0
   dio: ^4.0.0
@@ -43,6 +42,7 @@ dependencies:
   firebase_auth: ^3.1.2
   firebase_core: ^1.7.0
   cloud_firestore: ^2.5.3
+  font_awesome_flutter: ^9.2.0
 
 
 dev_dependencies:

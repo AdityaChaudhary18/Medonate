@@ -64,19 +64,7 @@ class _LandingPageState extends State<LandingPage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         titleSpacing: 0,
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              child: Icon(
-                Icons.add_alert,
-                color: Colors.black,
-                size: 5.h,
-              ),
-            ),
-          ),
-        ],
+        centerTitle: true,
         leading: GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, '/about');
@@ -84,7 +72,7 @@ class _LandingPageState extends State<LandingPage> {
           child: CircleAvatar(
             backgroundColor: Colors.transparent,
             child: Icon(
-              Icons.account_circle_outlined,
+              Icons.account_circle,
               color: Colors.black,
               size: 5.h,
             ),
