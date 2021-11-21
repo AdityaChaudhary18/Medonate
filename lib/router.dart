@@ -31,7 +31,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => AboutPage());
       case '/onboarding':
         return MaterialPageRoute(builder: (_) => OnBoardingScreen());
-      case '/blood':
+      case '/main_pages':
         return MaterialPageRoute(builder: (_) => BloodHome());
       default:
         return MaterialPageRoute(builder: (_) => PageNotFound());

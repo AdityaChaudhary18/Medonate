@@ -8,7 +8,7 @@ class BloodHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference bloodData =
-        FirebaseFirestore.instance.collection('blood');
+        FirebaseFirestore.instance.collection('main_pages');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -40,7 +40,7 @@ class BloodHome extends StatelessWidget {
                                 color: Color(0xFF5E17EB),
                                 borderRadius: BorderRadius.circular(20.0)),
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(20.0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -53,7 +53,7 @@ class BloodHome extends StatelessWidget {
                                         document["name"],
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 14.sp,
+                                            fontSize: 16.sp,
                                             fontWeight: FontWeight.w600),
                                       ),
                                       Text(
@@ -66,7 +66,7 @@ class BloodHome extends StatelessWidget {
                                         document["contactNo"].toString(),
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 12.sp,
+                                            fontSize: 14.sp,
                                             fontWeight: FontWeight.w500),
                                       )
                                     ],

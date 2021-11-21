@@ -1,7 +1,6 @@
-import 'package:dose_care/Screens/auth/signup_individual.dart';
-import 'package:dose_care/Screens/auth/signup_institution.dart';
-import 'package:dose_care/Screens/blood/blood_home.dart';
-import 'package:dose_care/Screens/intro/onboardingScreen.dart';
+import 'package:dose_care/Screens/main_pages/blood_home.dart';
+import 'package:dose_care/Screens/main_pages/equipment_home.dart';
+import 'package:dose_care/Screens/main_pages/organ_home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -23,8 +22,8 @@ class _NavBarPageState extends State<NavBarPage>
   final List<Widget> pages = [
     LandingPage(),
     BloodHome(),
-    OnBoardingScreen(),
-    PageNotFound()
+    OrganHome(),
+    EquipmentHome()
   ];
 
   @override
