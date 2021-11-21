@@ -9,7 +9,9 @@ import 'package:dose_care/Screens/intro/onboardingScreen.dart';
 import 'package:dose_care/Screens/dashboard/landing.dart';
 
 import 'Screens/about/about.dart';
-import 'Screens/blood/blood_home.dart';
+import 'Screens/main_pages/blood_donor.dart';
+import 'Screens/main_pages/blood_home.dart';
+import 'Screens/main_pages/equipment_donor.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -33,6 +35,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => OnBoardingScreen());
       case '/main_pages':
         return MaterialPageRoute(builder: (_) => BloodHome());
+      case '/bloodRequest':
+        return MaterialPageRoute(builder: (_) => BloodDonor());
+      case '/equiRequest':
+        return MaterialPageRoute(builder: (_) => EquipmentDonor());
+
       default:
         return MaterialPageRoute(builder: (_) => PageNotFound());
     }

@@ -73,13 +73,25 @@ class EquipmentHome extends StatelessWidget {
                                   ),
                                   Container(
                                     width: 30.w,
-                                    child: Text(
-                                      document["type"],
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          document["type"],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          "*${document["quantity"].toString()}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -99,7 +111,9 @@ class EquipmentHome extends StatelessWidget {
                   child: Container(
                     width: 100.w,
                     child: FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/equiRequest');
+                      },
                       child: Icon(Icons.add),
                     ),
                   ),

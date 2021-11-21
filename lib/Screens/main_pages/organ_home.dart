@@ -1,110 +1,130 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class OrganHome extends StatelessWidget {
+class OrganHome extends StatefulWidget {
   const OrganHome({Key? key}) : super(key: key);
 
   @override
+  State<OrganHome> createState() => _OrganHomeState();
+}
+
+class _OrganHomeState extends State<OrganHome> {
+  @override
   Widget build(BuildContext context) {
+    Future<void> _launchInBrowser(String url) async {
+      if (!await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      )) {
+        throw 'Could not launch $url';
+      }
+    }
+
+    Future<void> _makePhoneCall(String url) async {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
     CollectionReference bloodData =
         FirebaseFirestore.instance.collection('organs');
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Organ Donation",
-          style: TextStyle(color: Colors.black),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            "Organ Donation",
+            style: TextStyle(color: Colors.black),
+          ),
         ),
-      ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('organs').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Stack(
+        body: SingleChildScrollView(
+          child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-                child: ListView(
-                  children: <Widget>[
-                    ...snapshot.data!.docs.map(
-                      (document) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 2.h),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.indigo,
-                                borderRadius: BorderRadius.circular(20.0)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        document["name"],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        document["location"],
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Text(
-                                        document["contactNo"].toString(),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    document["type"],
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+              Image.asset('images/home/organMain.jpg'),
+              SizedBox(
+                height: 7.h,
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 80.w),
-                child: Align(
-                  alignment: Alignment(1, 0.7),
-                  child: Container(
-                    width: 100.w,
-                    child: FloatingActionButton(
-                      onPressed: () {},
-                      child: Icon(Icons.add),
+              Text(
+                "Give the gift of life....",
+                style: TextStyle(
+                    fontSize: 24.sp,
+                    color: Colors.pink,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Text(
+                "Become an",
+                style: TextStyle(
+                    fontSize: 24.sp,
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(
+                "Organ Donor",
+                style: TextStyle(
+                    fontSize: 24.sp,
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () => setState(() {
+                      _makePhoneCall('tel:1800114770');
+                    }),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.call,
+                          color: Colors.green,
+                        ),
+                        Text(
+                          "1800-11-4770",
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              )
+                  GestureDetector(
+                    onTap: () => setState(() {
+                      _launchInBrowser('https://www.notto.gov.in/');
+                    }),
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.public,
+                            color: Colors.green,
+                          ),
+                          Text(
+                            "https://www.notto.gov.in/",
+                            style: TextStyle(
+                                fontSize: 12.sp,
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
-          );
-        },
-      ),
-    );
+          ),
+        ));
   }
 }

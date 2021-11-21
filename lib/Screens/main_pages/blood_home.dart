@@ -95,7 +95,9 @@ class BloodHome extends StatelessWidget {
                   child: Container(
                     width: 100.w,
                     child: FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/bloodRequest');
+                      },
                       child: Icon(Icons.add),
                     ),
                   ),
