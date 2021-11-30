@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dose_care/utils/RoundedButton.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -25,6 +26,15 @@ class BloodDonor extends StatelessWidget {
           "location": locationController.text,
           'group': groupController.text
         });
+        var data = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
+        var number = data.get('bloodR');
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({'requests': number + 1});
         Navigator.pop(context);
       } catch (e) {
         print(e);

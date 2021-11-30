@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dose_care/Screens/auth/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,15 +45,14 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> logout() async {
-    try{
+    try {
       await FirebaseAuth.instance.signOut();
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
-          LoginPage()
-      ));
-    }
-    catch(e) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
+    } catch (e) {
       print(e);
-    }  }
+    }
+  }
 
   Future<dynamic> getNewsData() async {
     int i = 0;
@@ -92,10 +92,15 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ),
         actions: [
-          GestureDetector(child: Icon(Icons.logout, color: Colors.black,),onTap: ()async{
-            await logout();
-          }
-            ,)
+          GestureDetector(
+            child: Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+            onTap: () async {
+              await logout();
+            },
+          )
         ],
         title: Text(
           "MEDONATE",
@@ -170,11 +175,83 @@ class _LandingPageState extends State<LandingPage> {
                 padding: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 2.h),
                 child: Container(
                   height: 15.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 2),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('equipment')
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return CircularProgressIndicator();
+                      }
+                      var document = snapshot.data!.docs[0];
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.0),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    document["name"],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    document["location"],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    document["contactNo"].toString(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                width: 30.w,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      document["type"],
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "*${document["quantity"].toString()}",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
