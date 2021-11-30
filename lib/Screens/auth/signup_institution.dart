@@ -57,7 +57,7 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
     } catch (e) {
       print(e.toString());
     }
-    return users.add({
+    return users.doc(FirebaseAuth.instance.currentUser!.uid).set({
       'name': instituteNameController.value.text,
       'email': emailController.value.text,
       'location': cityNameController.value.text,

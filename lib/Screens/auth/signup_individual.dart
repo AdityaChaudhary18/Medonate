@@ -56,7 +56,7 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
     } catch (e) {
       print(e.toString());
     }
-    return userIndi.add({
+    return userIndi.doc(FirebaseAuth.instance.currentUser!.uid).set({
       'name': nameController.value.text,
       'email': emailController.value.text,
       'location': locationController.value.text,

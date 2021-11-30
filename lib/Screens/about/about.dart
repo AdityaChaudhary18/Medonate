@@ -81,10 +81,10 @@ class _AboutPageState extends State<AboutPage> {
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: AssetImage(
-                                            'images/shivansh.png',
+                                          image: NetworkImage(
+                                            'https://cdn0.iconfinder.com/data/icons/man-user-human-profile-avatar-person-business/100/10-1User_8-512.png',
                                           )),
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                       borderRadius:
                                           BorderRadius.circular(30.0)),
                                 ),
