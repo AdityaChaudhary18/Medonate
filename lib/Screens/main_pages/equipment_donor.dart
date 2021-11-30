@@ -34,7 +34,7 @@ class EquipmentDonor extends StatelessWidget {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .update({'requests': number + 1});
+            .update({'equipmentR': number + 1});
         Navigator.pop(context);
       } catch (e) {
         print(e);
