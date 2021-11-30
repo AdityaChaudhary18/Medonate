@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:dose_care/Screens/auth/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -41,6 +43,17 @@ class _LandingPageState extends State<LandingPage> {
     article = getNewsData();
   }
 
+  Future<void> logout() async {
+    try{
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
+          LoginPage()
+      ));
+    }
+    catch(e) {
+      print(e);
+    }  }
+
   Future<dynamic> getNewsData() async {
     int i = 0;
     var data = await newsModel.getNews();
@@ -78,6 +91,12 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ),
         ),
+        actions: [
+          GestureDetector(child: Icon(Icons.logout, color: Colors.black,),onTap: ()async{
+            await logout();
+          }
+            ,)
+        ],
         title: Text(
           "MEDONATE",
           style: TextStyle(
