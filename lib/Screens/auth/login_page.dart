@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     TextFormField(
                       controller: passwordController,
-                      textAlign: TextAlign.center,
+                      obscureText: true,
                       decoration: authTextFieldDecoration.copyWith(
                         labelText: "Password",
                         hintText: "Enter your Password",
@@ -132,7 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context, '/signup');
+                                    Navigator.pushReplacementNamed(
+                                        context, '/signup');
                                   },
                                   child: Text(
                                     "Sign Up",
