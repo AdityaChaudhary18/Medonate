@@ -60,7 +60,11 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
       'name': nameController.value.text,
       'email': emailController.value.text,
       'location': locationController.value.text,
-      'type': "individual"
+      'type': "individual",
+      'bloodD': 0,
+      'bloodR': 0,
+      'equipmentD': 0,
+      'equipmentR': 0,
     }).then((value) {
       final snackBar = SnackBar(
         backgroundColor: Colors.lightBlue,
@@ -84,6 +88,8 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
   }
+
+  final formGlobalKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -112,160 +118,197 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
                 ),
               ),
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Individual Registration",
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 3.h,
-                    ),
-                    TextFormField(
-                      decoration: authTextFieldDecoration.copyWith(
-                        labelText: "Name",
-                        hintText: "Enter your Name",
-                      ),
-                      controller: nameController,
-                      keyboardType: TextInputType.name,
-                    ),
-                    SizedBox(
-                      height: 3.h,
-                    ),
-                    TextFormField(
-                      decoration: authTextFieldDecoration.copyWith(
-                        labelText: "City",
-                        hintText: "Enter your City",
-                      ),
-                      controller: locationController,
-                      keyboardType: TextInputType.name,
-                    ),
-                    SizedBox(
-                      height: 1.5.h,
-                    ),
-                    TextFormField(
-                      decoration: authTextFieldDecoration,
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    SizedBox(
-                      height: 1.5.h,
-                    ),
-                    TextFormField(
-                      controller: passwordController,
-                      textAlign: TextAlign.center,
-                      obscureText: _obscureText1,
-                      decoration: authTextFieldDecoration.copyWith(
-                        labelText: "Password",
-                        hintText: "Enter your Password",
-                        suffixIcon: IconButton(
-                          icon: Icon(_obscureText1
-                              ? Icons.visibility_off
-                              : Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              _obscureText1 = !_obscureText1;
-                            });
-                          },
+                child: Form(
+                  key: formGlobalKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Individual Registration",
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 1.5.h,
-                    ),
-                    TextFormField(
-                      controller: confirmPasswordController,
-                      textAlign: TextAlign.center,
-                      obscureText: _obscureText2,
-                      decoration: authTextFieldDecoration.copyWith(
-                        labelText: "Confirm Password",
-                        hintText: "Enter your Password again",
-                        suffixIcon: IconButton(
-                          icon: Icon(_obscureText2
-                              ? Icons.visibility_off
-                              : Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              _obscureText2 = !_obscureText2;
-                            });
-                          },
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      TextFormField(
+                        decoration: authTextFieldDecoration.copyWith(
+                          labelText: "Name",
+                          hintText: "Enter your Name",
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter value';
+                          }
+                          return null;
+                        },
+                        controller: nameController,
+                        keyboardType: TextInputType.name,
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      TextFormField(
+                        decoration: authTextFieldDecoration.copyWith(
+                          labelText: "City",
+                          hintText: "Enter your City",
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter value';
+                          }
+                          return null;
+                        },
+                        controller: locationController,
+                        keyboardType: TextInputType.name,
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      TextFormField(
+                        decoration: authTextFieldDecoration,
+                        controller: emailController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter value';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        textAlign: TextAlign.center,
+                        obscureText: _obscureText1,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter value';
+                          }
+                          return null;
+                        },
+                        decoration: authTextFieldDecoration.copyWith(
+                          labelText: "Password",
+                          hintText: "Enter your Password",
+                          suffixIcon: IconButton(
+                            icon: Icon(_obscureText1
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText1 = !_obscureText1;
+                              });
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Transform.scale(
-                                scale: 0.23.w,
-                                child: Checkbox(
-                                  activeColor: Color(0xFF004AAD),
-                                  value: agree,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      agree = !agree;
-                                    });
-                                  },
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      TextFormField(
+                        controller: confirmPasswordController,
+                        textAlign: TextAlign.center,
+                        obscureText: _obscureText2,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter value';
+                          }
+                          return null;
+                        },
+                        decoration: authTextFieldDecoration.copyWith(
+                          labelText: "Confirm Password",
+                          hintText: "Enter your Password again",
+                          suffixIcon: IconButton(
+                            icon: Icon(_obscureText2
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText2 = !_obscureText2;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Transform.scale(
+                                  scale: 0.23.w,
+                                  child: Checkbox(
+                                    activeColor: Color(0xFF004AAD),
+                                    value: agree,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        agree = !agree;
+                                      });
+                                    },
+                                  ),
                                 ),
+                                Flexible(
+                                  child: Text(
+                                    "I have read and accept terms and conditions",
+                                    style: TextStyle(fontSize: 10.sp),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: RoundedButton(
+                              color: agree ? Color(0xFF004AAD) : Colors.grey,
+                              onPressed: () {
+                                if (formGlobalKey.currentState!.validate()) {
+                                  formGlobalKey.currentState!.save();
+                                  if (agree &&
+                                      passwordController.value.text ==
+                                          confirmPasswordController
+                                              .value.text) {
+                                    signUpIndi();
+                                  }
+                                }
+                              },
+                              text: "LOG IN",
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Already have an account? ",
+                                style: TextStyle(fontSize: 11.sp),
                               ),
-                              Flexible(
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/');
+                                },
                                 child: Text(
-                                  "I have read and accept terms and conditions",
-                                  style: TextStyle(fontSize: 10.sp),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                  "Sign Up",
+                                  style: TextStyle(
+                                      color: Colors.lightBlueAccent,
+                                      fontSize: 11.sp),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: RoundedButton(
-                            color: agree ? Color(0xFF004AAD) : Colors.grey,
-                            onPressed: () {
-                              if (agree &&
-                                  passwordController.value.text ==
-                                      confirmPasswordController.value.text) {
-                                signUpIndi();
-                              }
-                            },
-                            text: "LOG IN",
+                          SizedBox(
+                            height: 3.5.h,
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Already have an account? ",
-                              style: TextStyle(fontSize: 11.sp),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, '/');
-                              },
-                              child: Text(
-                                "Sign Up",
-                                style: TextStyle(
-                                    color: Colors.lightBlueAccent,
-                                    fontSize: 11.sp),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 3.5.h,
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

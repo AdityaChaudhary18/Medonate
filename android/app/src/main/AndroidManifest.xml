@@ -3,6 +3,10 @@
     <queries>
         <!-- If your app opens https URLs -->
         <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />
         </intent>
@@ -18,7 +22,7 @@
         </intent>
     </queries>
    <application
-        android:label="dose_care"
+        android:label="MeDonate"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

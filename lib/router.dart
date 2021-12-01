@@ -12,6 +12,7 @@ import 'Screens/about/about.dart';
 import 'Screens/main_pages/blood_donor.dart';
 import 'Screens/main_pages/blood_home.dart';
 import 'Screens/main_pages/equipment_donor.dart';
+import 'Screens/main_pages/equipment_home.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -39,6 +40,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => BloodDonor());
       case '/equiRequest':
         return MaterialPageRoute(builder: (_) => EquipmentDonor());
+      case '/equiHome':
+        return MaterialPageRoute(builder: (_) => EquipmentHome());
 
       default:
         return MaterialPageRoute(builder: (_) => PageNotFound());

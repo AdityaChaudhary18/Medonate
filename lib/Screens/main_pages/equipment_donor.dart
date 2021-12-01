@@ -16,6 +16,7 @@ class EquipmentDonor extends StatelessWidget {
     final locationController = TextEditingController();
     final typeController = TextEditingController();
     final quantityController = TextEditingController();
+    final emailController = TextEditingController();
 
     void addRequest() async {
       try {
@@ -25,6 +26,7 @@ class EquipmentDonor extends StatelessWidget {
           "location": locationController.text,
           'type': typeController.text,
           'quantity': int.parse(quantityController.text),
+          'email': emailController.text
         });
         var data = await FirebaseFirestore.instance
             .collection('users')
@@ -71,6 +73,17 @@ class EquipmentDonor extends StatelessWidget {
                 ),
                 controller: locationController,
                 keyboardType: TextInputType.name,
+              ),
+              SizedBox(
+                height: 1.5.h,
+              ),
+              TextFormField(
+                decoration: authTextFieldDecoration.copyWith(
+                  labelText: "Email",
+                  hintText: "Enter your email",
+                ),
+                controller: emailController,
+                keyboardType: TextInputType.number,
               ),
               SizedBox(
                 height: 1.5.h,

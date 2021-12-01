@@ -171,110 +171,120 @@ class _LandingPageState extends State<LandingPage> {
                   },
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 2.h),
-                child: Container(
-                  height: 15.h,
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('equipment')
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
-                      }
-                      var document = snapshot.data!.docs[0];
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          border: Border.all(color: Colors.grey, width: 2),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20.0),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/equiHome');
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 2.h),
+                  child: Container(
+                    height: 15.h,
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('equipment')
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        }
+                        var document = snapshot.data!.docs[0];
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            border: Border.all(color: Colors.grey, width: 2),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20.0),
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    document["name"],
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    document["location"],
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    document["contactNo"].toString(),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                width: 30.w,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      document["type"],
-                                      textAlign: TextAlign.center,
+                                      document["name"],
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                     Text(
-                                      "*${document["quantity"].toString()}",
-                                      textAlign: TextAlign.center,
+                                      document["location"],
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      document["contactNo"].toString(),
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  width: 20.w,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        document["type"],
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "*${document["quantity"].toString()}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: Container(
-                  height: 28.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20.0),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/main_pages');
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Container(
+                    height: 28.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20.0),
+                      ),
                     ),
-                  ),
-                  child: CarouselSlider.builder(
-                    options: CarouselOptions(
-                      enlargeCenterPage: true,
-                      viewportFraction: 1,
-                      autoPlay: true,
+                    child: CarouselSlider.builder(
+                      options: CarouselOptions(
+                        enlargeCenterPage: true,
+                        viewportFraction: 1,
+                        autoPlay: true,
+                      ),
+                      itemCount: imgList.length,
+                      itemBuilder: (context, index, realIndex) {
+                        final image = imgList[index];
+                        return buildImage(imgList[index], index);
+                      },
                     ),
-                    itemCount: imgList.length,
-                    itemBuilder: (context, index, realIndex) {
-                      final image = imgList[index];
-                      return buildImage(imgList[index], index);
-                    },
                   ),
                 ),
               ),

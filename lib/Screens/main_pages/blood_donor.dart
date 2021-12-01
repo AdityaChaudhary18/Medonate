@@ -16,6 +16,7 @@ class BloodDonor extends StatelessWidget {
     final phoneNoController = TextEditingController();
     final locationController = TextEditingController();
     final groupController = TextEditingController();
+    final emailController = TextEditingController();
 
     void addRequest() async {
       try {
@@ -24,7 +25,8 @@ class BloodDonor extends StatelessWidget {
           "age": int.parse(ageController.text),
           'contactNo': int.parse(phoneNoController.text),
           "location": locationController.text,
-          'group': groupController.text
+          'group': groupController.text,
+          'email': emailController.text
         });
         var data = await FirebaseFirestore.instance
             .collection('users')
@@ -81,6 +83,17 @@ class BloodDonor extends StatelessWidget {
                   hintText: "Enter your age",
                 ),
                 controller: ageController,
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(
+                height: 1.5.h,
+              ),
+              TextFormField(
+                decoration: authTextFieldDecoration.copyWith(
+                  labelText: "Email",
+                  hintText: "Enter your email",
+                ),
+                controller: emailController,
                 keyboardType: TextInputType.number,
               ),
               SizedBox(
