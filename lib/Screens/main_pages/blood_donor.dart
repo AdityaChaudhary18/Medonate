@@ -94,7 +94,6 @@ class BloodDonor extends StatelessWidget {
                   hintText: "Enter your email",
                 ),
                 controller: emailController,
-                keyboardType: TextInputType.number,
               ),
               SizedBox(
                 height: 1.5.h,
