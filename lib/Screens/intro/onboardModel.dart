@@ -15,7 +15,7 @@ class OnBoardModel {
 List<OnBoardModel> screens = <OnBoardModel>[
   OnBoardModel(
     img: 'images/bloodIntro.svg',
-    text: 'About 1 in 7 people entering a hospital need main_pages',
+    text: 'About 1 in 7 people entering a hospital need blood',
     bg: Colors.white,
     button: Color(0xFF004AAD),
   ),
