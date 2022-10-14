@@ -183,7 +183,7 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
                       ),
                       TextFormField(
                         controller: passwordController,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                         obscureText: _obscureText1,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -211,7 +211,7 @@ class _SignUpIndividualState extends State<SignUpIndividual> {
                       ),
                       TextFormField(
                         controller: confirmPasswordController,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                         obscureText: _obscureText2,
                         validator: (value) {
                           if (value!.isEmpty) {
