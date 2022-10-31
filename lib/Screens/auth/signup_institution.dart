@@ -113,6 +113,9 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(
+                        height: 3.h,
+                      ),
                       Text(
                         "Institution Registration",
                         style: TextStyle(
