@@ -352,6 +352,7 @@ class _LandingPageState extends State<LandingPage> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 13.sp,
+                                  fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold,
                                   // fontFamily: 'Verdana'
                                 ),
