@@ -106,6 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                         text: "LOG IN",
                       ),
                     ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(left: 2.w),
                       child: Column(
