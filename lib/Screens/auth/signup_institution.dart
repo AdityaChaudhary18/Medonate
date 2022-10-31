@@ -29,9 +29,7 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
   Future<void> signUpInst() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.value.text,
-              password: passwordController.value.text);
+          .createUserWithEmailAndPassword(email: emailController.value.text, password: passwordController.value.text);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         final snackBar = SnackBar(
@@ -113,6 +111,9 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(
+                        height: 3.h,
+                      ),
                       Text(
                         "Institution Registration",
                         style: TextStyle(
@@ -222,9 +223,7 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
                           labelText: "Password",
                           hintText: "Enter your Password",
                           suffixIcon: IconButton(
-                            icon: Icon(_obscureText1
-                                ? Icons.visibility_off
-                                : Icons.visibility),
+                            icon: Icon(_obscureText1 ? Icons.visibility_off : Icons.visibility),
                             onPressed: () {
                               setState(() {
                                 _obscureText1 = !_obscureText1;
@@ -250,9 +249,7 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
                           labelText: "Confirm Password",
                           hintText: "Enter your Password again",
                           suffixIcon: IconButton(
-                            icon: Icon(_obscureText2
-                                ? Icons.visibility_off
-                                : Icons.visibility),
+                            icon: Icon(_obscureText2 ? Icons.visibility_off : Icons.visibility),
                             onPressed: () {
                               setState(() {
                                 _obscureText2 = !_obscureText2;
@@ -298,10 +295,7 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
                               onPressed: () {
                                 if (formGlobalKey.currentState!.validate()) {
                                   formGlobalKey.currentState!.save();
-                                  if (agree &&
-                                      passwordController.value.text ==
-                                          confirmPasswordController
-                                              .value.text) {
+                                  if (agree && passwordController.value.text == confirmPasswordController.value.text) {
                                     signUpInst();
                                   }
                                 }
@@ -322,9 +316,7 @@ class _SignUpInstitutionState extends State<SignUpInstitution> {
                                 },
                                 child: Text(
                                   "Sign Up",
-                                  style: TextStyle(
-                                      color: Colors.lightBlueAccent,
-                                      fontSize: 11.sp),
+                                  style: TextStyle(color: Colors.lightBlueAccent, fontSize: 11.sp),
                                 ),
                               ),
                             ],
