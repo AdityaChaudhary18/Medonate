@@ -1,4 +1,4 @@
-# Chef Gram
+# Medonate
 ## _E-donation application_
 
 <img src="images/logo.png" width="240px" height="200px"/>
